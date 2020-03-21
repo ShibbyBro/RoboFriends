@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import ErrorBoundry from '../components/ErrorBoundry';
 import './App.css'
 
 class App extends Component {
@@ -28,15 +29,17 @@ class App extends Component {
     const filteredRobots = robots.filter(robot => {
       return robot.name.toLowerCase().includes(searchfield.toLowerCase());
     });
-    return !robots.length ?
-    <h1>Loading</h1> : // LOADING BAR
-    (
+    return !robots.length ? (
+      <h1>Loading</h1> // LOADING BAR
+    ) : (
       <div className="tc">
         <h1 className="f1">RoboFriends</h1>
         <SearchBox searchChange={this.onSearchChange} />
         <Scroll>
-          <CardList robots={filteredRobots} />
-        </Scroll>  
+          <ErrorBoundry>
+            <CardList robots={filteredRobots} />
+          </ErrorBoundry>
+        </Scroll>
       </div>
     );
   }
